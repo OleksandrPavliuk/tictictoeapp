@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vgC-ab-grN">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="Zps-j3-KXy">
+            <objects>
+                <navigationController id="vgC-ab-grN" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="EZg-N9-poW">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="g4N-O0-VPZ"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wWP-tr-hVb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-775" y="124"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="TictactoeApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i5W-3n-05V">
+                                <rect key="frame" x="153.5" y="298.5" width="68" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <state key="normal" title="Start as X"/>
+                                <connections>
+                                    <segue destination="clv-4f-I22" kind="show" id="D99-fF-Evp"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ylX-Y4-GHs">
+                                <rect key="frame" x="153" y="338.5" width="69" height="30"/>
+                                <state key="normal" title="Start as O"/>
+                                <connections>
+                                    <segue destination="clv-4f-I22" kind="show" id="c2c-fe-HcK"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="i5W-3n-05V" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="4TU-tZ-AII"/>
+                            <constraint firstItem="ylX-Y4-GHs" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="YYY-zK-npD"/>
+                            <constraint firstItem="ylX-Y4-GHs" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="20" id="irp-AB-eFc"/>
+                            <constraint firstItem="i5W-3n-05V" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="-20" id="ut9-UV-wCG"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="A84-9Y-sSA"/>
+                    <connections>
+                        <outlet property="startAsXButton" destination="i5W-3n-05V" id="V4x-ga-Pgo"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+        <!--Game View Controller-->
+        <scene sceneID="tf4-3Z-OWe">
+            <objects>
+                <viewController id="clv-4f-I22" customClass="GameViewController" customModule="TictactoeApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="AjI-a4-b3a"/>
+                        <viewControllerLayoutGuide type="bottom" id="NBQ-qb-6fa"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="EB8-V7-E3T">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Cjm-om-6ue">
+                                <rect key="frame" x="67" y="213.5" width="240" height="240"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="240" id="H2j-aj-RDK"/>
+                                    <constraint firstAttribute="width" secondItem="Cjm-om-6ue" secondAttribute="height" multiplier="1:1" id="vzC-cV-IYo"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="nqb-wW-VNQ">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="gameCellID" id="Tpw-yu-XDf" customClass="GameCell" customModule="TictactoeApp" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6an-am-wsA">
+                                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                </imageView>
+                                            </subviews>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="6an-am-wsA" firstAttribute="centerX" secondItem="Tpw-yu-XDf" secondAttribute="centerX" id="I5Z-yK-sxq"/>
+                                            <constraint firstItem="6an-am-wsA" firstAttribute="width" secondItem="Tpw-yu-XDf" secondAttribute="width" id="Yhx-wc-PX8"/>
+                                            <constraint firstItem="6an-am-wsA" firstAttribute="centerY" secondItem="Tpw-yu-XDf" secondAttribute="centerY" id="lfD-9x-qFW"/>
+                                            <constraint firstItem="6an-am-wsA" firstAttribute="height" secondItem="Tpw-yu-XDf" secondAttribute="height" id="z7W-bo-TPu"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="markImageView" destination="6an-am-wsA" id="9rE-iB-k9p"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="clv-4f-I22" id="TbH-zT-IkD"/>
+                                    <outlet property="delegate" destination="clv-4f-I22" id="PQ3-66-7Oh"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Cjm-om-6ue" firstAttribute="centerY" secondItem="EB8-V7-E3T" secondAttribute="centerY" id="Sxb-vz-xy7"/>
+                            <constraint firstItem="Cjm-om-6ue" firstAttribute="centerX" secondItem="EB8-V7-E3T" secondAttribute="centerX" id="usl-4d-vig"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="fieldCollectionView" destination="Cjm-om-6ue" id="15c-F3-6II"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="frq-3Q-R8y" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1030" y="36"/>
+        </scene>
+    </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="c2c-fe-HcK"/>
+    </inferredMetricsTieBreakers>
+</document>
