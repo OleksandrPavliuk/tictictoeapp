@@ -110,9 +110,20 @@ class GameViewController: UIViewController, UICollectionViewDataSource, UICollec
     
     func showAlertWith(message: String) {
         let alert = UIAlertController(title: "Game Over", message: message, preferredStyle: UIAlertControllerStyle.alert)
+        
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: { action in
             self.navigationController?.popViewController(animated: true)
         }))
+        
+        alert.addAction(UIAlertAction(title: "Share", style: UIAlertActionStyle.default, handler: { action in
+            let activityViewController = UIActivityViewController(activityItems: [UIActivityType.postToFacebook,
+                                                                                  UIActivityType.postToTwitter], applicationActivities: nil)
+            self.navigationController?.present(activityViewController, animated: true)
+            activityViewController.completionWithItemsHandler = { _ in
+                self.navigationController?.popViewController(animated: true)
+            }
+        }))
+        
         self.present(alert, animated: true, completion: nil)
     }
     
