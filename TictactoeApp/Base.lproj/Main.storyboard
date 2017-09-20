@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vgC-ab-grN">
-    <device id="retina4_7" orientation="portrait">
+    <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -35,11 +35,11 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i5W-3n-05V">
-                                <rect key="frame" x="153.5" y="298.5" width="68" height="30"/>
+                                <rect key="frame" x="173" y="353" width="68" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal" title="Start as X"/>
                                 <connections>
@@ -47,28 +47,40 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ylX-Y4-GHs">
-                                <rect key="frame" x="153" y="338.5" width="69" height="30"/>
+                                <rect key="frame" x="172.66666666666666" y="403" width="69" height="30"/>
                                 <state key="normal" title="Start as O"/>
                                 <connections>
                                     <segue destination="clv-4f-I22" kind="show" id="c2c-fe-HcK"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J0B-19-m6T">
+                                <rect key="frame" x="141" y="303" width="133" height="30"/>
+                                <state key="normal" title="Resume Last Game"/>
+                                <connections>
+                                    <segue destination="clv-4f-I22" kind="show" id="jXp-FS-ZwG"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="i5W-3n-05V" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="4TU-tZ-AII"/>
+                            <constraint firstItem="J0B-19-m6T" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="6Kv-7i-9Du"/>
                             <constraint firstItem="ylX-Y4-GHs" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="YYY-zK-npD"/>
-                            <constraint firstItem="ylX-Y4-GHs" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="20" id="irp-AB-eFc"/>
-                            <constraint firstItem="i5W-3n-05V" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="-20" id="ut9-UV-wCG"/>
+                            <constraint firstItem="i5W-3n-05V" firstAttribute="top" secondItem="J0B-19-m6T" secondAttribute="bottom" constant="20" id="crM-Zj-lNC"/>
+                            <constraint firstItem="i5W-3n-05V" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="ut9-UV-wCG"/>
+                            <constraint firstItem="ylX-Y4-GHs" firstAttribute="top" secondItem="i5W-3n-05V" secondAttribute="bottom" constant="20" id="z7D-Xp-OWL"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="A84-9Y-sSA"/>
                     <connections>
+                        <outlet property="resumeButton" destination="J0B-19-m6T" id="43Y-UF-mLP"/>
+                        <outlet property="startAsOButton" destination="ylX-Y4-GHs" id="Ff1-rO-TDz"/>
                         <outlet property="startAsXButton" destination="i5W-3n-05V" id="V4x-ga-Pgo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="74" y="124"/>
         </scene>
         <!--Game View Controller-->
         <scene sceneID="tf4-3Z-OWe">
@@ -79,14 +91,15 @@
                         <viewControllerLayoutGuide type="bottom" id="NBQ-qb-6fa"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="EB8-V7-E3T">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Cjm-om-6ue">
-                                <rect key="frame" x="67" y="213.5" width="240" height="240"/>
+                                <rect key="frame" x="87" y="248" width="240" height="240"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="240" id="H2j-aj-RDK"/>
+                                    <constraint firstAttribute="width" constant="500" id="bla-f4-YC0"/>
                                     <constraint firstAttribute="width" secondItem="Cjm-om-6ue" secondAttribute="height" multiplier="1:1" id="vzC-cV-IYo"/>
                                 </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="nqb-wW-VNQ">
@@ -103,8 +116,9 @@
                                             <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6an-am-wsA">
+                                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6an-am-wsA">
                                                     <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                    <rect key="contentStretch" x="0.0" y="0.050000000000000003" width="1" height="1"/>
                                                 </imageView>
                                             </subviews>
                                         </view>
@@ -119,6 +133,32 @@
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="H2j-aj-RDK"/>
+                                        <exclude reference="bla-f4-YC0"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="H2j-aj-RDK"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact-widthClass=regular">
+                                    <mask key="constraints">
+                                        <include reference="H2j-aj-RDK"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="H2j-aj-RDK"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=regular">
+                                    <mask key="constraints">
+                                        <include reference="bla-f4-YC0"/>
+                                    </mask>
+                                </variation>
                                 <connections>
                                     <outlet property="dataSource" destination="clv-4f-I22" id="TbH-zT-IkD"/>
                                     <outlet property="delegate" destination="clv-4f-I22" id="PQ3-66-7Oh"/>
@@ -137,7 +177,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="frq-3Q-R8y" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1030" y="36"/>
+            <point key="canvasLocation" x="1026" y="124"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

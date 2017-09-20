@@ -55,19 +55,19 @@ class ImageCache {
     private let loader = ImageLoader()
     var cachedImages = [String: UIImage]()
     
-    public func loadImage(name: String, and comletion: @escaping (UIImage?) -> Void) {
+    public func loadImage(name: String, comletion: ((UIImage?) -> Void)? = nil) {
         guard let url = ImagePathBuilder.remoteUrlFromName(name) else {
-            comletion(nil)
+            comletion?(nil)
             return
         }
 
         if let image = cachedImages[url.absoluteString] {
-            comletion(image)
+            comletion?(image)
         } else {
             loader.loadImageWithName(name) { image in
                 if let image = image {
                     self.cachedImages[url.absoluteString] = image
-                    comletion(image)
+                    comletion?(image)
                 }
             }
         }

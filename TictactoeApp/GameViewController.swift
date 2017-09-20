@@ -13,11 +13,14 @@ enum Mark: String {
     case o = "o"
 }
 
+struct Constants {
+    static let cellID = "gameCellID"
+    static let modelStoreKey = "savedModelKey"
+}
+
 class GameViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     @IBOutlet weak var fieldCollectionView: UICollectionView!
-    
-    struct Constants { static let cellID = "gameCellID" }
     
     var model: Model?
     
@@ -28,6 +31,25 @@ class GameViewController: UIViewController, UICollectionViewDataSource, UICollec
         
         fieldCollectionView.isScrollEnabled = false
         self.automaticallyAdjustsScrollViewInsets = false
+        
+        imageCache.loadImage(name: "x")
+        imageCache.loadImage(name: "o")
+        
+        UserDefaults.standard.removeObject(forKey: Constants.modelStoreKey)
+        
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(appMovedToBackground),
+            name: Notification.Name.UIApplicationWillResignActive,
+            object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    func appMovedToBackground() {
+        guard let model = model else { return }
+        UserDefaults.standard.set(ModelArchiver.archive(model), forKey: Constants.modelStoreKey)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -102,15 +124,17 @@ class GameViewController: UIViewController, UICollectionViewDataSource, UICollec
     
     func moveSequence(_ move: IndexPath) {
         processNewMove(move)
-        guard verifyEnding() == false else {
+        guard checkWininState() == false else {
             let message = (model?.activePlayer.mark.rawValue ?? "") + " wins"
-
+            
             showAlertWith(message: message)
+            UserDefaults.standard.removeObject(forKey: Constants.modelStoreKey)
             self.view.isUserInteractionEnabled = false
             return
         }
         guard verifyDraw() == false else {
             showDrawAlert()
+            UserDefaults.standard.removeObject(forKey: Constants.modelStoreKey)
             self.view.isUserInteractionEnabled = false
             return
         }
@@ -130,22 +154,20 @@ class GameViewController: UIViewController, UICollectionViewDataSource, UICollec
         self.model = model
     }
     
-    func verifyEnding() -> Bool {
+    func checkWininState() -> Bool {
         guard let model = model else { return false }
         guard model.activePlayer.moves.count > 2 else { return false }
-        var isEnd = false
+        var isWin = false
         model.winningCombinations.forEach { (winningPaths) in
 
-            let filtered = winningPaths.filter({ (path) -> Bool in
-                return !model.activePlayer.moves.contains(path)
-            })
+            let filtered = winningPaths.filter { !model.activePlayer.moves.contains($0) }
             
             if filtered.isEmpty {
-                isEnd = true
+                isWin = true
                 return
             }
         }
-        return isEnd
+        return isWin
     }
     
     func verifyDraw() -> Bool {
@@ -218,20 +240,76 @@ extension GameViewController
             var moves: Set<IndexPath>
             let mark: Mark
             
-            enum `Type` {
+            enum `Type`: Int {
                 case user
                 case bot
             }
             let type: Type
         }
     }
+}
+
+extension GameViewController{
     
-    final class AILogic {
-        func selectePathFrom(paths: Set<IndexPath>) -> IndexPath? {
-            guard paths.count > 0 else { return nil }
-            let pathsArray = Array(paths)
-            let idx = Int(arc4random() % UInt32(pathsArray.count))
-            return pathsArray[idx]
+    final class ModelArchiver {
+        
+        enum ReconvertionError: Error {
+            case unable
+        }
+        
+        init() { }
+        
+        class func archive(_ model: Model) -> [String:Any] {
+            var convertedModel = [String:Any]()
+            convertedModel["gridNumber"] = model.gridNumber
+            
+            ["activePlayer": model.activePlayer, "waitingPlayer": model.waitingPlayer].forEach {
+                convertedModel[$0] = ["moves": $1.moves.map { return NSKeyedArchiver.archivedData(withRootObject: $0) },
+                                      "mark": $1.mark.rawValue,
+                                      "type":$1.type.rawValue]
+            }
+            
+            return convertedModel
+        }
+        
+        class func unarchive(_ data: Any) throws -> Model {
+            
+            guard
+                let data = data as? [String: Any],
+                let gridNumber = data["gridNumber"] as? UInt,
+                let activePlayer = data["activePlayer"] as? [String: Any],
+                let waitingPlayer = data["waitingPlayer"] as? [String: Any] else {
+                    throw ReconvertionError.unable
+            }
+            
+            let active = try ModelArchiver.unarchivePlayer(activePlayer)
+            let waiting = try ModelArchiver.unarchivePlayer(waitingPlayer)
+            
+            return Model(gridNumber: gridNumber, activePlayer: active, waitingPlayer: waiting)
+        }
+        
+        class func unarchivePlayer(_ data: Any) throws -> Model.Player {
+            
+            guard
+                let data = data as? [String: Any],
+                let movesData = data["moves"] as? [Data],
+                let markRawValue = data["mark"] as? String,
+                let mark = Mark(rawValue: markRawValue),
+                let typeRawValue = data["type"] as? Int,
+                let type = Model.Player.Type(rawValue: typeRawValue) else {
+                    throw ReconvertionError.unable
+            }
+            
+            
+            let moves = try movesData.map({ (data) -> IndexPath in
+                guard let indexPath = NSKeyedUnarchiver.unarchiveObject(with: data) as? IndexPath else {
+                    throw ReconvertionError.unable
+                }
+                
+                return indexPath
+            })
+            
+            return Model.Player(moves: Set(moves), mark: mark, type: type)
         }
     }
 }
